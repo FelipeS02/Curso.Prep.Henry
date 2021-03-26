@@ -31,7 +31,7 @@ function invocarMetodo(objeto, metodo) {
   // Invoca ese método
   // Nada necesita ser devuelto ("returned")
   // Tu código:
-  objeto[metodo()];
+  objeto[metodo]();
 }
 
 function multiplicarNumeroDesconocidoPorCinco(objetoMisterioso) {
@@ -137,11 +137,16 @@ function sumarLikesDeUsuario(usuario) {
   // Suma todos los likes de todos los objetos "post"
   // Devuelve la suma
   // Tu código:
-  counter = 0;
-  for (let i = 0; usuario["posts"].length; i++) {
-    counter = counter + usuario["posts"][i]["likes"];
+  for (const property in usuario) {
+    let counter = 0;
+    if (Array.isArray(usuario[property])) {
+      const todosLosUsuarios = usuario[property];
+      for (let i = 0; i < todosLosUsuarios.length; i++) {
+        counter = counter + Number(todosLosUsuarios[i].likes)
+      }
+      return counter;
+    }
   }
-  return counter;
 }
 
 function agregarMetodoCalculoDescuento(producto) {
@@ -154,10 +159,12 @@ function agregarMetodoCalculoDescuento(producto) {
   // producto.porcentajeDeDescuento -> 0.2 (o simplemente ".2")
   // producto.calcularPrecioDescuento() -> 20 - (20 * 0.2)
   // Tu código:
-  producto["calcularPrecioDescuento"] = function () {
+  producto.calcularPrecioDescuento = function () {
     let descuento = this.precio * this.porcentajeDeDescuento;
-    return (this.precio - descuento);
+    let precioFinal = this.precio - descuento
+    return precioFinal;
   }
+  return producto
 }
 
 // No modificar nada debajo de esta línea
